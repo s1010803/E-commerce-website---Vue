@@ -7,56 +7,36 @@ import Accessories from '../views/Products/Accessories.vue';
 
 // 定義路由
 const routes = [
-  // 根路徑，使用 Layout 作為父組件
   {
     path: '/',
     component: Layout,
-    children: [
-      // 根路徑顯示的內容（首頁）
-      {
-        path: '', // 空路徑對應的是 Layout 頁面中的 <router-view />
-        component: Products, // 可選擇主頁顯示的內容，這裡顯示 AllProducts.vue
-      },
-    ],
+    meta: { breadcrumb: '首頁' }
   },
-
-  // 其他路徑使用 Layout 作為父組件，只顯示 Navbar 和 Footer
   {
     path: '/products',
     component: Layout,
+    meta: { breadcrumb: '所有商品' },
     children: [
       {
-        path: '', 
+        path: '', // /products
         component: Products,
       },
-    ],
-  },
-  {
-    path: '/products/clothes',
-    component: Layout,
-    children: [
       {
-        path: '', 
+        path: 'clothes', // /products/clothes
         component: Clothes,
+        meta: { breadcrumb: '服飾' }
       },
-    ],
-  },
-  {
-    path: '/products/accessories',
-    component: Layout,
-    children: [
       {
-        path: '', 
+        path: 'accessories', // /products/accessories
         component: Accessories,
-      },
-    ],
+        meta: { breadcrumb: '飾品' }
+      }
+    ]
   },
-
-  // login 頁面不需要 Layout 包裝
   {
     path: '/login',
     component: Login,
-  },
+  }
 ];
 
 // 創建路由器實例

@@ -21,9 +21,9 @@ const getHot = async () => {
 onMounted(() => {
   getHot();
   AOS.init({
-    duration: 1000, 
+    duration: 2000, 
     once: false,
-    offset: 250
+    offset: 300
   })
 })
 </script>
