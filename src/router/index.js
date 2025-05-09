@@ -4,6 +4,7 @@ import Login from '../views/Login/index.vue';
 import Products from '../views/Products/AllProducts.vue';
 import Clothes from '../views/Products/Clothes.vue';
 import Accessories from '../views/Products/Accessories.vue';
+import SearchProducts from '../views/Products/SearchProducts.vue';
 
 // 定義路由
 const routes = [
@@ -30,6 +31,10 @@ const routes = [
         path: 'accessories', // /products/accessories
         component: Accessories,
         meta: { breadcrumb: '飾品' }
+      },
+      {
+        path: 'search', // /products/SearchProducts
+        component: SearchProducts,
       }
     ]
   },

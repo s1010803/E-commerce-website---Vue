@@ -1,7 +1,12 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useDebounce } from '@vueuse/core'
 
 const isMenuOpen = ref(false)
+const searchQuery = ref('')
+const debounceQuery = useDebounce(searchQuery, 300)
+const router = useRouter()
 
 const openMenu = () => {
   isMenuOpen.value = true
@@ -9,6 +14,12 @@ const openMenu = () => {
 
 const closeMenu = () => {
   isMenuOpen.value = false
+}
+
+const goToSearch = () => {
+  if (debounceQuery.value.trim()) {
+    router.push({ path: '/products/search', query: { q: debounceQuery.value } })
+  }
 }
 </script>
 
@@ -57,10 +68,12 @@ const closeMenu = () => {
       <!-- 搜尋欄 -->
       <div class="pt-1 relative mx-auto text-gray-600 w-40 max-w-md">
         <input
+          v-model="searchQuery"
+          @keypress.enter="goToSearch"
           class="w-full h-10 px-5 pr-16 rounded-full text-sm text-gray-800 placeholder-gray-500 border border-white/30 bg-white/20 backdrop-blur-md shadow-md focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
           type="search" name="search" placeholder="Search" />
 
-        <button type="submit" class="absolute right-0 top-0 mt-2.5 mr-4 text-gray-700 cursor-pointer hover:text-white transition">
+        <button type="button" @click="goToSearch" class="absolute right-0 top-0 mt-2.5 mr-4 text-gray-700 cursor-pointer hover:text-white transition">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </div>

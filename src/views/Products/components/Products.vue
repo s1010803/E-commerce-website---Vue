@@ -12,33 +12,48 @@ const props = defineProps({
   category: { type: String, default: '' }
 })
 
-// 商品資料清單
+// 商品資料清單 & 分頁參數
 const cardList = ref([])
+const currentPage = ref(1)
+const totalPages = ref(1)
+const limit = 12 // 每頁顯示 12 筆
 
-// 取得商品資料
+// 取得商品資料（含分類、分頁）
 const fetchCards = async () => {
   try {
-    const res = await getCardApi(props.category)
-    if (res.success) cardList.value = res.data
+    const res = await getCardApi(props.category, currentPage.value, limit)
+    if (res.success) {
+      cardList.value = res.data
+      totalPages.value = res.totalPages
+    }
   } catch (error) {
     console.error('獲取商品資料失敗', error)
   }
 }
 
-// 初始執行一次
+// 換頁方法
+const goToPage = (page) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page
+    fetchCards()
+  }
+}
+
+// 初次載入 & 初始化 AOS
 onMounted(() => {
   fetchCards()
-
-  // 初始化 AOS 動畫
   AOS.init({
-    duration: 2000, // 動畫持續時間
-    once: false,    // 是否只執行一次
-    offset: 250     // 偏移量
+    duration: 2000,
+    once: false,
+    offset: 250
   })
 })
 
-// 當 category 改變時重新抓資料
-watch(() => props.category, fetchCards)
+// 當分類變化時重設分頁 & 抓資料
+watch(() => props.category, () => {
+  currentPage.value = 1
+  fetchCards()
+})
 </script>
 
 <template>
@@ -47,13 +62,14 @@ watch(() => props.category, fetchCards)
   <section class="pt-10 px-4">
     <div
       class="w-400 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mx-auto"
-      data-aos="fade-up"
+      
     >
       <!-- 單筆商品卡片 -->
       <div
         v-for="item in cardList"
         :key="item.id"
         class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
+        data-aos="fade-up"
       >
         <!-- 商品圖片 -->
         <img
@@ -80,5 +96,56 @@ watch(() => props.category, fetchCards)
         </div>
       </div>
     </div>
+  </section>
+
+  <section class="mt-30">
+    <nav aria-label="Page navigation" class="mt-10">
+      <ul class="flex items-center justify-center -space-x-px h-10 text-base">
+        <!-- Previous -->
+        <li>
+          <button
+            @click="goToPage(currentPage - 1)"
+            :disabled="currentPage === 1"
+            class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50 hover:cursor-pointer"
+          >
+            <span class="sr-only">Previous</span>
+            <svg class="w-3 h-3 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+            </svg>
+          </button>
+        </li>
+
+        <!-- Page numbers -->
+        <li v-for="page in totalPages" :key="page">
+          <a href="#top">
+            <button
+              @click="goToPage(page)"
+              :class="[
+                'flex items-center justify-center px-4 h-10 leading-tight border',
+                page === currentPage
+                  ? 'z-10 text-blue-600 border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700'
+                  : 'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700'
+              ]" class="hover:cursor-pointer"
+            >
+              {{ page }}
+            </button>
+          </a>
+        </li>
+
+        <!-- Next -->
+        <li>
+          <button
+            @click="goToPage(currentPage + 1)"
+            :disabled="currentPage === totalPages"
+            class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50 hover:cursor-pointer"
+          >
+            <span class="sr-only">Next</span>
+            <svg class="w-3 h-3 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+            </svg>
+          </button>
+        </li>
+      </ul>
+    </nav>
   </section>
 </template>
