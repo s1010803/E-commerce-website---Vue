@@ -5,6 +5,7 @@ import Products from '../views/Products/AllProducts.vue';
 import Clothes from '../views/Products/Clothes.vue';
 import Accessories from '../views/Products/Accessories.vue';
 import SearchProducts from '../views/Products/SearchProducts.vue';
+import ProductIntro from '../views/Products/ProductIntro.vue';
 
 // 定義路由
 const routes = [
@@ -35,6 +36,11 @@ const routes = [
       {
         path: 'search', // /products/SearchProducts
         component: SearchProducts,
+      },
+      {
+        path: ':id', // /products/:id
+        component: ProductIntro,
+        props: true
       }
     ]
   },

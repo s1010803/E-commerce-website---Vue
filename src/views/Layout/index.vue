@@ -8,7 +8,7 @@ const Footer = defineAsyncComponent(() => import('./components/Footer.vue'));
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#fff]">
+  <div class="flex flex-col min-h-screen bg-[#fff]">
     <Navbar />
     <!-- 僅在根路徑 / 顯示 Carousel 和 Hot -->
     <template v-if="$route.path === '/'">

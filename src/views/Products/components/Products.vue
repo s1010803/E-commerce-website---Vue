@@ -3,9 +3,10 @@
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
-import { onMounted, watch, ref } from 'vue'
+import { onMounted, watch, ref, computed } from 'vue'
 import { getCardApi } from '../../../apis/card'
 import Breadcrumb from '../../../utils/Breadcrumb.vue'
+import { useRouter } from 'vue-router'
 
 // 接收父層傳入的分類參數
 const props = defineProps({
@@ -37,6 +38,12 @@ const goToPage = (page) => {
     currentPage.value = page
     fetchCards()
   }
+}
+
+// 詳細資訊
+const router = useRouter()
+const goToDetail = (id) => {
+  router.push(`/products/${id}`);
 }
 
 // 初次載入 & 初始化 AOS
@@ -85,7 +92,9 @@ watch(() => props.category, () => {
 
           <!-- 操作按鈕 -->
           <div class="flex gap-3">
-            <button class="flex-1 px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition hover:cursor-pointer">
+            <button 
+            @click="goToDetail(item.pid)"
+            class="flex-1 px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition hover:cursor-pointer">
               詳細資訊
             </button>
             <button class="flex-1 px-4 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition hover:cursor-pointer">

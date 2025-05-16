@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import Fuse from 'fuse.js'
 import { getAllProductsApi } from '../../apis/allProduct'
 import AOS from 'aos'
@@ -36,6 +37,12 @@ async function fetchProducts() {
   } catch (error) {
     console.error('資料搜尋失敗', error)
   }
+}
+
+// 詳細資訊
+const router = useRouter()
+const goToDetail = (id) => {
+  router.push(`/products/${id}`);
 }
 
 // 搜尋邏輯
@@ -85,7 +92,7 @@ onMounted(() => {
       <!-- 單筆商品卡片 -->
       <div
         v-for="item in filteredProducts"
-        :key="item.id"
+        :key="item.pid"
         class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
         data-aos="fade-up"
       >
@@ -104,7 +111,9 @@ onMounted(() => {
 
           <!-- 操作按鈕 -->
           <div class="flex gap-3">
-            <button class="flex-1 px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition hover:cursor-pointer">
+            <button 
+            @click="goToDetail(item.pid)"
+            class="flex-1 px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition hover:cursor-pointer">
               詳細資訊
             </button>
             <button class="flex-1 px-4 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition hover:cursor-pointer">
