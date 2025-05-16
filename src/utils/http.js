@@ -11,7 +11,7 @@ httpInstance.interceptors.request.use(config => {
   return config;
 }, e => Promise.reject(e));
 
-// axios 響應是攔截器
+// axios 響應式攔截器
 httpInstance.interceptors.response.use(res => res.data, e => {
   return Promise.reject(e);
 });

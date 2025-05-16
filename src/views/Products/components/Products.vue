@@ -45,7 +45,7 @@ onMounted(() => {
   AOS.init({
     duration: 2000,
     once: false,
-    offset: 250
+    offset: 200
   })
 })
 
@@ -62,7 +62,6 @@ watch(() => props.category, () => {
   <section class="pt-10 px-4">
     <div
       class="w-400 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mx-auto"
-      
     >
       <!-- 單筆商品卡片 -->
       <div
@@ -103,16 +102,18 @@ watch(() => props.category, () => {
       <ul class="flex items-center justify-center -space-x-px h-10 text-base">
         <!-- Previous -->
         <li>
-          <button
-            @click="goToPage(currentPage - 1)"
-            :disabled="currentPage === 1"
-            class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50 hover:cursor-pointer"
-          >
-            <span class="sr-only">Previous</span>
-            <svg class="w-3 h-3 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
-            </svg>
-          </button>
+          <a href="#top">
+            <button
+              @click="goToPage(currentPage - 1)"
+              :disabled="currentPage === 1"
+              class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50 hover:cursor-pointer"
+            >
+              <span class="sr-only">Previous</span>
+              <svg class="w-3 h-3 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+              </svg>
+            </button>
+          </a>
         </li>
 
         <!-- Page numbers -->
@@ -134,16 +135,18 @@ watch(() => props.category, () => {
 
         <!-- Next -->
         <li>
-          <button
-            @click="goToPage(currentPage + 1)"
-            :disabled="currentPage === totalPages"
-            class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50 hover:cursor-pointer"
-          >
-            <span class="sr-only">Next</span>
-            <svg class="w-3 h-3 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-            </svg>
-          </button>
+          <a href="#top">
+            <button
+              @click="goToPage(currentPage + 1)"
+              :disabled="currentPage === totalPages"
+              class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50 hover:cursor-pointer"
+            >
+              <span class="sr-only">Next</span>
+              <svg class="w-3 h-3 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+              </svg>
+            </button>
+          </a>
         </li>
       </ul>
     </nav>

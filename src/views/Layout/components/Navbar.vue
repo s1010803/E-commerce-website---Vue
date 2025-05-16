@@ -43,19 +43,19 @@ const goToSearch = () => {
       <div class="absolute right-6 top-6" @click="closeMenu">
         <img src="/src/imgs/close-black.png" alt="關閉選單" class="w-5 cursor-pointer">
       </div>
-      <li><a href="http://localhost:5173/" @click="closeMenu">Home</a></li>
-      <li><a href="http://localhost:5173/products" @click="closeMenu">All Products</a></li>
-      <li><a href="http://localhost:5173/products/clothes" @click="closeMenu">Clothes</a></li>
-      <li><a href="http://localhost:5173/products/accessories" @click="closeMenu">Items</a></li>
+      <li><a href="/" @click="closeMenu">Home</a></li>
+      <li><a href="/products" @click="closeMenu">All Products</a></li>
+      <li><a href="/products/clothes" @click="closeMenu">Clothes</a></li>
+      <li><a href="/products/accessories" @click="closeMenu">Items</a></li>
       <li><a href="#contact" @click="closeMenu">Contact Us</a></li>
     </ul>
 
     <!-- 中間導覽按鈕 -->
     <ul id="ul" class="flex items-center absolute left-1/2 -translate-x-1/2 gap-6 lg:gap-8 rounded-full px-12 py-3 bg-white/50 shadow-sm">
-      <li><a href="http://localhost:5173/">Home</a></li>
-      <li><a href="http://localhost:5173/products">All Products</a></li>
-      <li><a href="http://localhost:5173/products/clothes">Clothes</a></li>
-      <li><a href="http://localhost:5173/products/accessories">Items</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/products">All Products</a></li>
+      <li><a href="/products/clothes">Clothes</a></li>
+      <li><a href="/products/accessories">Items</a></li>
       <li><a href="#contact">Contact Us</a></li>
     </ul>
 
@@ -69,7 +69,7 @@ const goToSearch = () => {
       <div class="pt-1 relative mx-auto text-gray-600 w-40 max-w-md">
         <input
           v-model="searchQuery"
-          @keypress.enter="goToSearch"
+          @keyup.enter="goToSearch"
           class="w-full h-10 px-5 pr-16 rounded-full text-sm text-gray-800 placeholder-gray-500 border border-white/30 bg-white/20 backdrop-blur-md shadow-md focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
           type="search" name="search" placeholder="Search" />
 

@@ -15,14 +15,18 @@ let fuse = null
 // 取得商品資料
 async function fetchProducts() {
   try {
-    const category = route.query.category || ''  // 取得網址上的分類參數
     const res = await getAllProductsApi()       // 加上分類參數呼叫 API
     console.log(res);
     if (res.success && Array.isArray(res.data)) {
       products.value = res.data
       fuse = new Fuse(products.value, {
-        keys: ['pName'],
-        threshold: 0.4
+        keys: [{
+          name: 'pName', weight: 0.7
+        }, {
+          name: 'pIntro', weight: 0.3
+        }],
+        threshold: 0.3,
+        ignoreLocation: false
       })
       searchProducts()  // 搜尋邏輯
     } else {
@@ -74,7 +78,7 @@ onMounted(() => {
   <section class="pt-40 px-4">
     <div class="w-400 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mx-auto">
       <!-- 檢查是否有商品 -->
-      <div v-if="filteredProducts.length === 0" class="col-span-4 text-center text-lg text-gray-600">
+      <div v-if="filteredProducts.length === 0" class="col-span-4 text-center text-lg text-gray-600 h-[490px]" data-aos="fade-up">
         <p>沒有符合條件的商品。</p>
       </div>
       
