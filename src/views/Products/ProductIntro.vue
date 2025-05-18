@@ -11,6 +11,7 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules'
 import { getProductDetail } from '../../apis/productDetail'
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
+import RecommendedProducts from './components/RecommendedProducts.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -65,7 +66,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="flex justify-center items-center w-full h-screen pt-10 mt-8">
+  <section class="flex justify-center items-center w-full h-screen py-10 mt-8">
     <!-- 商品圖片 -->
     <div class="w-[350px] h-[350px] md:w-[750px] md:h-[750px]" v-if="product">
       <swiper
@@ -97,6 +98,7 @@ onMounted(() => {
         <swiper-slide v-for="(image, index) in product.images"
             :key="index">
           <img
+            class="cursor-pointer"
             :src="`http://localhost:3000/images/${image.pImg}`" />
         </swiper-slide>
       </swiper>
@@ -134,6 +136,9 @@ onMounted(() => {
     </div>
   </section>
 
+  <hr>
+
+  <RecommendedProducts class="mt-10" :product="product"/>
   
 </template>
 

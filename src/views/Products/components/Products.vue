@@ -26,6 +26,7 @@ const fetchCards = async () => {
     if (res.success) {
       cardList.value = res.data
       totalPages.value = res.totalPages
+      AOS.refresh();  // 確保每次數據更新後刷新動畫效果
     }
   } catch (error) {
     console.error('獲取商品資料失敗', error)
@@ -50,7 +51,7 @@ const goToDetail = (id) => {
 onMounted(() => {
   fetchCards()
   AOS.init({
-    duration: 2000,
+    duration: 3000,
     once: false,
     offset: 200
   })
