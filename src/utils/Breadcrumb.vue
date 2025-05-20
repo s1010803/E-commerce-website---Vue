@@ -1,6 +1,9 @@
 <template>
   <nav class="breadcrumb">
     <ul>
+      <li class=" after:content-['/'] after:ml-2.5">
+        <router-link to="/">首頁</router-link>
+      </li>
       <li
         v-for="(item, index) in breadcrumbList"
         :key="index"

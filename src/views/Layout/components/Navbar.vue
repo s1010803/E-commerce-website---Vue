@@ -1,7 +1,11 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDebounce } from '@vueuse/core'
+import { useCartStore } from '../../../stores/cart'
+
+const cartStore = useCartStore()
+const cartItemCount = computed(() => cartStore.itemCount)
 
 const isMenuOpen = ref(false)
 const searchQuery = ref('')
@@ -19,6 +23,7 @@ const closeMenu = () => {
 const goToSearch = () => {
   if (debounceQuery.value.trim()) {
     router.push({ path: '/products/search', query: { q: debounceQuery.value } })
+    searchQuery.value = ''
   }
 }
 </script>
@@ -43,19 +48,19 @@ const goToSearch = () => {
       <div class="absolute right-6 top-6" @click="closeMenu">
         <img src="/src/imgs/close-black.png" alt="關閉選單" class="w-5 cursor-pointer">
       </div>
-      <li><a href="/" @click="closeMenu">Home</a></li>
-      <li><a href="/products" @click="closeMenu">All Products</a></li>
-      <li><a href="/products/clothes" @click="closeMenu">Clothes</a></li>
-      <li><a href="/products/accessories" @click="closeMenu">Items</a></li>
+      <li><router-link to="/" @click="closeMenu">Home</router-link></li>
+      <li><router-link to="/products" @click="closeMenu">All Products</router-link></li>
+      <li><router-link to="/products/clothes" @click="closeMenu">Clothes</router-link></li>
+      <li><router-link to="/products/accessories" @click="closeMenu">Items</router-link></li>
       <li><a href="#contact" @click="closeMenu">Contact Us</a></li>
     </ul>
 
     <!-- 中間導覽按鈕 -->
     <ul id="ul" class="flex items-center absolute left-1/2 -translate-x-1/2 gap-6 lg:gap-8 rounded-full px-12 py-3 bg-white/50 shadow-sm">
-      <li><a href="/">Home</a></li>
-      <li><a href="/products">All Products</a></li>
-      <li><a href="/products/clothes">Clothes</a></li>
-      <li><a href="/products/accessories">Items</a></li>
+      <li><router-link to="/">Home</router-link></li>
+      <li><router-link to="/products">All Products</router-link></li>
+      <li><router-link to="/products/clothes">Clothes</router-link></li>
+      <li><router-link to="/products/accessories">Items</router-link></li>
       <li><a href="#contact">Contact Us</a></li>
     </ul>
 
@@ -84,9 +89,18 @@ const goToSearch = () => {
       </button>
 
       <!-- 購物車圖示 -->
-      <button class="cursor-pointer">
-        <img src="/src/imgs/shopping_cart.png" alt="購物車">
-      </button>
+      <!-- 購物車圖示（帶徽章） -->
+      <router-link to="/cart" class="relative cursor-pointer">
+        <img src="/src/imgs/shopping_cart.png" alt="購物車" class="w-8 h-8">
+
+        <!-- 購物車徽章 -->
+        <span
+          v-if="cartItemCount > 0"
+          class="absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-lg animate-bounce transition"
+        >
+          {{ cartItemCount > 99 ? '99+' : cartItemCount }}
+        </span>
+      </router-link>
     </div>
   </nav>
 </template>

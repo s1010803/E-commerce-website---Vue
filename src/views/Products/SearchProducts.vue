@@ -6,6 +6,10 @@ import Fuse from 'fuse.js'
 import { getAllProductsApi } from '../../apis/allProduct'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import { useCartStore } from '../../stores/cart'
+import { toast } from 'vue3-toastify'
+
+const cartStore = useCartStore()
 
 const route = useRoute()
 const searchQuery = ref(route.query.q || '') // 取得路由中的搜尋參數
@@ -82,7 +86,7 @@ onMounted(() => {
 
 <template>
   <!-- 商品區塊 -->
-  <section class="pt-40 px-4">
+  <section class="pt-40 px-4 pb-8">
     <div class="w-400 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mx-auto">
       <!-- 檢查是否有商品 -->
       <div v-if="filteredProducts.length === 0" class="col-span-4 text-center text-lg text-gray-600 h-[490px]" data-aos="fade-up">
@@ -116,7 +120,12 @@ onMounted(() => {
             class="flex-1 px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition hover:cursor-pointer">
               詳細資訊
             </button>
-            <button class="flex-1 px-4 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition hover:cursor-pointer">
+            <button 
+            @click="() => {
+              cartStore.addToCart(item)
+              toast.success('已加入購物車！')
+            }"
+            class="flex-1 px-4 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition hover:cursor-pointer">
               加入購物車
             </button>
           </div>

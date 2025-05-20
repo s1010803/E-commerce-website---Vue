@@ -3,10 +3,15 @@
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
-import { onMounted, watch, ref, computed } from 'vue'
+import { onMounted, watch, ref, computed, toRef } from 'vue'
 import { getCardApi } from '../../../apis/card'
 import Breadcrumb from '../../../utils/Breadcrumb.vue'
 import { useRouter } from 'vue-router'
+import { useCartStore } from '../../../stores/cart'
+import { toast } from 'vue3-toastify'
+
+const cartStore = useCartStore()
+
 
 // 接收父層傳入的分類參數
 const props = defineProps({
@@ -38,6 +43,10 @@ const goToPage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
     fetchCards()
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
   }
 }
 
@@ -98,7 +107,12 @@ watch(() => props.category, () => {
             class="flex-1 px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition hover:cursor-pointer">
               詳細資訊
             </button>
-            <button class="flex-1 px-4 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition hover:cursor-pointer">
+            <button 
+            @click="() => {
+              cartStore.addToCart(item)
+              toast.success('已加入購物車！')
+            }"
+            class="flex-1 px-4 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition hover:cursor-pointer">
               加入購物車
             </button>
           </div>
@@ -112,7 +126,6 @@ watch(() => props.category, () => {
       <ul class="flex items-center justify-center -space-x-px h-10 text-base">
         <!-- Previous -->
         <li>
-          <a href="#top">
             <button
               @click="goToPage(currentPage - 1)"
               :disabled="currentPage === 1"
@@ -123,12 +136,10 @@ watch(() => props.category, () => {
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
               </svg>
             </button>
-          </a>
         </li>
 
         <!-- Page numbers -->
         <li v-for="page in totalPages" :key="page">
-          <a href="#top">
             <button
               @click="goToPage(page)"
               :class="[
@@ -140,12 +151,10 @@ watch(() => props.category, () => {
             >
               {{ page }}
             </button>
-          </a>
         </li>
 
         <!-- Next -->
         <li>
-          <a href="#top">
             <button
               @click="goToPage(currentPage + 1)"
               :disabled="currentPage === totalPages"
@@ -156,7 +165,6 @@ watch(() => props.category, () => {
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
               </svg>
             </button>
-          </a>
         </li>
       </ul>
     </nav>

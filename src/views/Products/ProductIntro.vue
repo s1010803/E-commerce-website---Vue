@@ -10,8 +10,12 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules'
 
 import { getProductDetail } from '../../apis/productDetail'
 import { useRoute, useRouter } from 'vue-router'
-import { onMounted, ref } from 'vue'
-import RecommendedProducts from './components/RecommendedProducts.vue'
+import { computed, onMounted, ref } from 'vue'
+import { useCartStore } from '../../stores/cart'
+import { toast } from 'vue3-toastify'
+
+const cartStore = useCartStore()
+const cartItems = computed(() => cartStore.items)
 
 const route = useRoute()
 const router = useRouter()
@@ -44,21 +48,15 @@ const setThumbsSwiper = (swiper) => {
 // 匯出模組 (供 template 使用)
 const modules = [FreeMode, Navigation, Thumbs]
 
-// 商品數量狀態
 const quantity = ref(1)
 
-// 增加數量
-function increaseQuantity() {
-  quantity.value += 1
+function increase() {
+  quantity.value++
 }
 
-// 減少數量
-function decreaseQuantity() {
-  if (quantity.value > 1) {
-    quantity.value -= 1
-  }
+function decrease() {
+  if (quantity.value > 1) quantity.value--
 }
-
 
 onMounted(() => {
   fetchProduct()
@@ -115,30 +113,29 @@ onMounted(() => {
       <div class="mt-12 flex items-center gap-4">
         <label for="quantity" class="text-xl">數量:</label>
         <div class="flex items-center">
-          <button class="px-4 py-2 bg-gray-200 rounded-l-md hover:bg-gray-300" @click="decreaseQuantity">-</button>
+          <button class="px-4 py-2 bg-gray-200 rounded-l-md hover:bg-gray-300" @click="decrease">-</button>
           <input 
             id="quantity" 
-            v-model="quantity" 
             type="number" 
             min="1" 
             class="w-16 h-10 text-center border-2 border-gray-300 rounded-md"
+            v-model.number="quantity"
           />
-          <button class="px-4 py-2 bg-gray-200 rounded-r-md hover:bg-gray-300" @click="increaseQuantity">+</button>
+          <button class="px-4 py-2 bg-gray-200 rounded-r-md hover:bg-gray-300" @click="increase">+</button>
         </div>
       </div>
 
       <button 
         class="mt-10 px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition cursor-pointer"
-        @click="addToCart"
+        @click="() => {
+          cartStore.addToCart({ product, quantity: quantity.value })
+          toast.success('已加入購物車！')
+          }"
       >
         加入購物車
       </button>
     </div>
   </section>
-
-  <hr>
-
-  <RecommendedProducts class="mt-10" :product="product"/>
   
 </template>
 

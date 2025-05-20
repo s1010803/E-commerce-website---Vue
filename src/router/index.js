@@ -6,13 +6,13 @@ import Clothes from '../views/Products/Clothes.vue';
 import Accessories from '../views/Products/Accessories.vue';
 import SearchProducts from '../views/Products/SearchProducts.vue';
 import ProductIntro from '../views/Products/ProductIntro.vue';
+import CartPage from '../views/cart/cartPage.vue';
 
 // 定義路由
 const routes = [
   {
     path: '/',
-    component: Layout,
-    meta: { breadcrumb: '首頁' }
+    component: Layout
   },
   {
     path: '/products',
@@ -45,6 +45,16 @@ const routes = [
     ]
   },
   {
+    path: '/cart',
+    component: Layout,
+    children: [
+      {
+        path: '',
+        component: CartPage
+      }
+    ]
+  },
+  {
     path: '/login',
     component: Login,
   }
@@ -54,6 +64,15 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL), // 使用 HTML5 History 模式
   routes, // 路由配置
+  scrollBehavior(to, from, savePosition) {
+    // 若有保存的位置(例如瀏覽器返回) 則返回該位置
+    if (savePosition) {
+      return savePosition
+    } else {
+      // 否則跳轉回頂部
+      return { top: 0 }
+    }
+  }
 });
 
 export default router;

@@ -11,7 +11,7 @@ const getHot = async () => {
   try {
     const res = await getHotApi();
     if (res.success) {
-      console.log(res.data);
+      // console.log(res.data);
       hotList.value = res.data;
       AOS.refresh();  // 確保每次數據更新後刷新動畫效果
     } else {
