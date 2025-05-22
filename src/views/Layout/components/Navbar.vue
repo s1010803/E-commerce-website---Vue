@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDebounce } from '@vueuse/core'
-import { useCartStore } from '../../../stores/cart'
+import { useCartStore } from '@/stores/useCart'
 
 const cartStore = useCartStore()
 const cartItemCount = computed(() => cartStore.itemCount)
@@ -29,7 +29,6 @@ const goToSearch = () => {
 </script>
 
 <template>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css">
   <div class="fixed top-0 right-0 w-11/12 -z-10 translate-y-[-90%]">
     <img src="/src/imgs/header-bg-color.png" alt="背景圖片" class="w-full">
   </div>

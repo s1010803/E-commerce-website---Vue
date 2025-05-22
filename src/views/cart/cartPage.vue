@@ -1,5 +1,5 @@
 <script setup>
-import { useCartStore } from '../../stores/cart'
+import { useCartStore } from '@/stores/useCart'
 import { computed } from 'vue'
 
 const cartStore = useCartStore()
@@ -32,7 +32,7 @@ const handleCheckout = () => {
             class="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm"
             >
             <img
-              :src="`http://localhost:3000/images/${item.pImg}`"
+              :src="`http://localhost:3000/images/${item.pImg ?? item.images[0].pImg}`"
               alt="商品圖片"
               class="w-24 h-24 object-cover rounded"
             />
@@ -40,14 +40,14 @@ const handleCheckout = () => {
               <h2 class="text-lg font-semibold">{{ item.pName }}</h2>
               <p class="text-sm text-gray-600 mt-1">NT${{ item.pPrice }}</p>
               <div class="flex items-center gap-2 mt-3">
-                <button @click="cartStore.decreaseQuantity(item.id)" class="px-2 py-1 bg-gray-200 rounded cursor-pointer">−</button>
+                <button @click="cartStore.decreaseQuantity(item.pid)" class="px-2 py-1 bg-gray-200 rounded cursor-pointer">−</button>
                 <span>{{ item.quantity }}</span>
-                <button @click="cartStore.increaseQuantity(item.id)" class="px-2 py-1 bg-gray-200 rounded cursor-pointer">＋</button>
+                <button @click="cartStore.increaseQuantity(item.pid)" class="px-2 py-1 bg-gray-200 rounded cursor-pointer">＋</button>
               </div>
             </div>
             <div class="flex flex-col items-end gap-4">
               <p class="font-bold text-gray-600">NT${{ item.pPrice * item.quantity }}</p>
-              <button @click="cartStore.removeFromCart(item.id)" class="text-sm text-white bg-red-600 px-4 py-2 rounded hover:bg-red-700 transition cursor-pointer">移除</button>
+              <button @click="cartStore.removeFromCart(item.pid)" class="text-sm text-white bg-red-600 px-4 py-2 rounded hover:bg-red-700 transition cursor-pointer">移除</button>
             </div>
           </div>
         </div>

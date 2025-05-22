@@ -5,7 +5,7 @@
 <template>
   <section
   id="contact"
-  class="flex flex-wrap justify-between items-start gap-4 mt-40 border-t border-gray-400 bg-gray-500 py-6 px-6"
+  class="flex flex-wrap justify-between items-start gap-4 mt-40 bg-gray-500 py-6 px-6"
 >
   <div class="flex flex-col gap-2 text-white my-auto">
     <p>關於: All Black</p>

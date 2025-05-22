@@ -4,7 +4,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 import { Pagination, Autoplay } from 'swiper/modules'
-import { getCarouselApi } from '../../../apis/carousel'
+import { getCarouselApi } from '@/apis/carousel'
 import { onMounted, ref } from 'vue'
 
 const modules = [Pagination, Autoplay]
@@ -36,9 +36,9 @@ onMounted(() => {
       class="mySwiper"
     >
       <swiper-slide v-for="item in carouselList" :key="item.caro_id">
-        <a href="#">
+        <router-link to="/products">
           <img :src="`http://127.0.0.1:3000/images/${item.caro_pic}`" alt="" class="mx-auto w-[1200px] h-[800px]">
-        </a>
+        </router-link>
       </swiper-slide>
     </swiper>
   </section>

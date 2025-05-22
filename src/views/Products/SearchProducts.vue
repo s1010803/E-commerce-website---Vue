@@ -3,10 +3,10 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import Fuse from 'fuse.js'
-import { getAllProductsApi } from '../../apis/allProduct'
+import { getAllProductsApi } from '@/apis/allProduct'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
-import { useCartStore } from '../../stores/cart'
+import { useCartStore } from '@/stores/useCart'
 import { toast } from 'vue3-toastify'
 
 const cartStore = useCartStore()
@@ -86,7 +86,7 @@ onMounted(() => {
 
 <template>
   <!-- 商品區塊 -->
-  <section class="pt-40 px-4 pb-8">
+  <section class="pt-40 px-4 pb-14">
     <div class="w-400 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mx-auto">
       <!-- 檢查是否有商品 -->
       <div v-if="filteredProducts.length === 0" class="col-span-4 text-center text-lg text-gray-600 h-[490px]" data-aos="fade-up">

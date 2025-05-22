@@ -1,7 +1,7 @@
 <script setup>
 import AOS from 'aos'
 import 'aos/dist/aos.css'
-import { getHotApi } from '../../../apis/hot'
+import { getHotApi } from '@/apis/hot'
 import { onMounted, ref } from 'vue'
 
 const hotList = ref([])
@@ -33,10 +33,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <img src="/src/p.img/短袖廣告圖.webp" alt="短袖廣告圖" class="mx-auto my-12">
+  <router-link to="/products">
+    <img src="/src/p.img/短袖廣告圖.webp" alt="短袖廣告圖" class="mx-auto my-12">
+  </router-link>
   <div id="hot" class="w-full h-8 bg-gradient-to-r from-pink-500 to-yellow-500"></div>
   <section class="w-full mt-16">
-    <h3 class="text-3xl ml-10 my-10">--人氣商品:</h3>
+    <h3 class="flex items-center text-3xl my-12 
+               before:content-[''] before:w-14 before:h-[3px] before:bg-gradient-to-r before:from-pink-500 before:to-yellow-500 before:mr-2 before:ml-6
+               after:content-[''] after:w-14 after:h-[3px] after:bg-gradient-to-r after:from-blue-500 after:to-green-500 after:ml-2">
+      人氣商品
+    </h3>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-4 md:ml-15">
       <!-- 使用 v-for 渲染熱門商品 -->
       <div
@@ -45,13 +51,13 @@ onMounted(() => {
         :key="item.hotSort"
         data-aos="fade-up"
       >
-        <a href="#">
+        <router-link :to="`/products/${item.pid}`">
           <img 
             class="rounded-t-lg w-full h-100 object-cover" 
             :src="`http://127.0.0.1:3000/images/${item.pImg}`"
             alt="人氣商品"
           />
-        </a>
+        </router-link>
       </div>
     </div>
   </section>

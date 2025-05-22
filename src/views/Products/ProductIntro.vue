@@ -8,10 +8,10 @@ import 'swiper/css/thumbs'
 // Swiper 所需模組
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules'
 
-import { getProductDetail } from '../../apis/productDetail'
+import { getProductDetail } from '@/apis/productDetail'
 import { useRoute, useRouter } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
-import { useCartStore } from '../../stores/cart'
+import { useCartStore } from '@/stores/useCart'
 import { toast } from 'vue3-toastify'
 
 const cartStore = useCartStore()
@@ -128,7 +128,7 @@ onMounted(() => {
       <button 
         class="mt-10 px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition cursor-pointer"
         @click="() => {
-          cartStore.addToCart({ product, quantity: quantity.value })
+          cartStore.addToCart({ ...product, quantity: quantity })
           toast.success('已加入購物車！')
           }"
       >

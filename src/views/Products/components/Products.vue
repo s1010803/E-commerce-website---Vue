@@ -4,10 +4,10 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 import { onMounted, watch, ref, computed, toRef } from 'vue'
-import { getCardApi } from '../../../apis/card'
-import Breadcrumb from '../../../utils/Breadcrumb.vue'
+import { getCardApi } from '@/apis/card'
+import Breadcrumb from '@/utils/Breadcrumb.vue'
 import { useRouter } from 'vue-router'
-import { useCartStore } from '../../../stores/cart'
+import { useCartStore } from '@/stores/useCart'
 import { toast } from 'vue3-toastify'
 
 const cartStore = useCartStore()
@@ -83,7 +83,7 @@ watch(() => props.category, () => {
       <!-- 單筆商品卡片 -->
       <div
         v-for="item in cardList"
-        :key="item.id"
+        :key="item.pid"
         class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
         data-aos="fade-up"
       >
@@ -122,7 +122,9 @@ watch(() => props.category, () => {
   </section>
 
   <section class="mt-30">
-    <nav aria-label="Page navigation" class="mt-10">
+    <!-- 使用 tabindex="0" 讓 <nav> 可以接受鍵盤事件-->
+    <nav aria-label="Page navigation"
+         class="mt-10">
       <ul class="flex items-center justify-center -space-x-px h-10 text-base">
         <!-- Previous -->
         <li>
